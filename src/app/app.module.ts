@@ -9,17 +9,25 @@ import { RegisterComponent } from './login/register.component';
 
 // Modulos
 import { PagesModule } from './pages/pages.module';
+import { IncrementadorComponent } from './components/incrementador/incrementador.component';
+
+// Temporal
+import { FormsModule } from '@angular/forms';
+// import { GraficoDonaComponent } from './components/grafico-dona/grafico-dona.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    //GraficoDonaComponent,
+    //IncrementadorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    PagesModule
+    PagesModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
