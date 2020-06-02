@@ -13,4 +13,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  ingresar() {
+    console.log("Ingresando...");
+  }
 }
