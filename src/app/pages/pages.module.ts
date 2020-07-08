@@ -15,14 +15,14 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages.routing.module';
 
+// Pipe Module
+import { PipesModule } from '../pipes/pipes.module';
 
 // Temporal
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 
-
 // Graficas temporal
-
 import { ChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
@@ -51,7 +51,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         SharedModule,
         PagesRoutingModule,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 
