@@ -25,6 +25,7 @@ import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.co
 // Graficas temporal
 import { ChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -40,6 +41,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         AccountSettingsComponent,
         PromesasComponent,
         RxjsComponent,
+        ProfileComponent,
 
     ],
     exports: [
