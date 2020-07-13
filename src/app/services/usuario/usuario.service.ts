@@ -68,6 +68,23 @@ cargarStorage(){
       })
     );
   }
+
+  actualizarUsuario(usuario: Usuario){
+
+    let url = URL_SERVICIOS + '/usuario/' + usuario._id;
+    url += '?token=' + this.token;
+    return this.http.put( url, usuario)
+    .pipe(
+      map( (resp: any) => {
+
+        let usuarioDB: Usuario = resp.usuario;
+        this.guardarStorage( usuarioDB._id, this.token, usuarioDB);
+        swal('Usuario actualizado', usuario.nombre, 'success');
+        return true;
+        })
+      );
+    }
+
   loginGoogle(token: string) {
     let url = URL_SERVICIOS + '/login/google';
     return this.http.post(url, { token })
@@ -86,7 +103,7 @@ cargarStorage(){
     }else{
       localStorage.removeItem('email');
     }
-    
+
     let url = URL_SERVICIOS + '/login';
 // tslint:disable-next-line: align
 return this.http.post(url, usuario)
