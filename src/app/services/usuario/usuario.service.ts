@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import _swal from 'sweetalert';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { Router } from '@angular/router';
+import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
 
 const swal: SweetAlert = _swal as any;
 
@@ -18,7 +19,7 @@ export class UsuarioService {
 usuario: Usuario;
 token: string;
 
-  constructor(public http: HttpClient, public router: Router) {
+  constructor(public http: HttpClient, public router: Router, public _subirArchivoService: SubirArchivosService ) {
     console.log('Servicio de usuario listo');
     this.cargarStorage();
   }
@@ -118,5 +119,18 @@ return this.http.post(url, usuario)
   })
 );
 
+  }
+
+  cambiarImagen( archivo: File, id: string ){
+this._subirArchivoService.subirArchivo( archivo, 'usuarios', id)
+.then( (resp: any) => {
+// console.log(resp);
+this.usuario.img = resp.usuario.img;
+swal('Imagen actualizada', this.usuario.nombre, 'success');
+this.guardarStorage(id, this.token, this.usuario);
+})
+.catch( resp => {
+console.log(resp);
+});
   }
 }

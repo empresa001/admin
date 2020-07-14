@@ -14,6 +14,7 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 // Modulos
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages.routing.module';
+import { CommonModule } from '@angular/common';
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
@@ -50,6 +51,7 @@ import { ProfileComponent } from './profile/profile.component';
         Graficas1Component,
     ],
     imports: [
+        CommonModule,
         SharedModule,
         PagesRoutingModule,
         FormsModule,
