@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         scope: 'profile email'
       });
       this.attachSignin( document.getElementById('btnGoogle'));
-    });
+    }); 
   }
 
   attachSignin( element ){
