@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { UsuarioService } from '../services/services.index';
-import { Usuario } from '../models/usuario.model';
+import { UsuarioService } from '../../services/services.index';
+import { Usuario } from '../../models/usuario.model';
 
 declare function init_plugins();
 declare const gapi: any;

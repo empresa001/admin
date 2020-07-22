@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import _swal from 'sweetalert';
 import { SweetAlert } from 'sweetalert/typings/core';
 
-import { UsuarioService } from '../services/services.index';
-import { Usuario } from '../models/usuario.model';
+import { UsuarioService } from '../../services/services.index';
+import { Usuario } from '../../models/usuario.model';
 import { Router } from '@angular/router';
 
 const swal: SweetAlert = _swal as any;
@@ -14,7 +14,7 @@ declare function init_plugins();
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
