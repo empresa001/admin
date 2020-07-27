@@ -5,8 +5,9 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { NopagefoundComponent } from './nopagefound/nopagefound.component';
+
 import { PipesModule } from '../pipes/pipes.module';
+
 
 @NgModule({
     imports: [
@@ -18,13 +19,11 @@ import { PipesModule } from '../pipes/pipes.module';
         HeaderComponent,
         SidebarComponent,
         BreadcrumbsComponent,
-        NopagefoundComponent,
     ],
     exports: [
         HeaderComponent,
         SidebarComponent,
         BreadcrumbsComponent,
-        NopagefoundComponent,
     ]
 })
 

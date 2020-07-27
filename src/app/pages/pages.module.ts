@@ -14,7 +14,7 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 // Modulos
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages.routing.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'; 
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
@@ -27,9 +27,8 @@ import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.co
 import { ChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { ProfileComponent } from './profile/profile.component';
-
-
-
+import { NopagefoundComponent } from './nopagefound/nopagefound.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -43,9 +42,11 @@ import { ProfileComponent } from './profile/profile.component';
         PromesasComponent,
         RxjsComponent,
         ProfileComponent,
+        NopagefoundComponent,
 
     ],
     exports: [
+        PagesComponent, //aumentado para nueva version AA
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
@@ -53,6 +54,7 @@ import { ProfileComponent } from './profile/profile.component';
     imports: [
         CommonModule,
         SharedModule,
+        RouterModule,
         PagesRoutingModule,
         FormsModule,
         ChartsModule,
