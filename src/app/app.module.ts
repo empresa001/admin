@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 // Modulos
 import { PagesModule } from './pages/pages.module';
 import { AuthModule } from './auth/auth.module';
-// import { IncrementadorComponent } from './components/incrementador/incrementador.component';
 
 // Servicios
 import { ServiceModule } from './services/service.module';
@@ -19,17 +18,13 @@ import { ServiceModule } from './services/service.module';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PagesModule,
     AuthModule,
-    
     ServiceModule,
-    /*FormsModule,
-    ReactiveFormsModule*/
   ],
   providers: [],
   bootstrap: [AppComponent]

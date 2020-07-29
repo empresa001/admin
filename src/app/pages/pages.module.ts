@@ -13,14 +13,15 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 
 // Modulos
 import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from '../components/components.module';
 import { PagesRoutingModule } from './pages.routing.module';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
 
 // Temporal
-import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
+// import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 
 // Graficas temporal
@@ -36,7 +37,7 @@ import { RouterModule } from '@angular/router';
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
-        IncrementadorComponent,
+        // IncrementadorComponent,
         GraficoDonaComponent,
         AccountSettingsComponent,
         PromesasComponent,
@@ -46,7 +47,7 @@ import { RouterModule } from '@angular/router';
 
     ],
     exports: [
-        PagesComponent, //aumentado para nueva version AA
+        PagesComponent, // aumentado para nueva version AA
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
@@ -56,6 +57,7 @@ import { RouterModule } from '@angular/router';
         SharedModule,
         RouterModule,
         PagesRoutingModule,
+        ComponentsModule, // Recien importado con la nueva version AA
         FormsModule,
         ChartsModule,
         PipesModule

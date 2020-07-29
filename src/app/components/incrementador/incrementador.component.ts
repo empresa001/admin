@@ -13,26 +13,27 @@ export class IncrementadorComponent implements OnInit {
 
   @Input() leyenda: string = 'Leyenda';
   @Input() progreso: number = 50;
+  @Input() btnClass: string = 'btn-primary';
 
   @Output('actualizaValor') cambioValor: EventEmitter<number> = new EventEmitter();
 
+ ngOnInit(): void {
+    this.btnClass = `btn ${ this.btnClass}`;
+  }
+
   constructor() {
-    //console.log('Leyenda', this.leyenda);
+    console.log('Leyenda', this.leyenda);
     console.log('Progreso', this.progreso);
   }
 
-  ngOnInit(): void {
-    //console.log('Leyenda', this.leyenda);
-    console.log('Progreso', this.progreso);
-  }
 
   onChanges(newValue: number){
 
-  // let elemHTML: any = document.getElementsByName('progreso')[0];
+   //let elemHTML: any = document.getElementsByName('progreso')[0];
 
-  console.log(this.varProgress);
+   console.log(this.varProgress);
 
-  if (newValue >= 100) {
+   if (newValue >= 100) {
       this.progreso = 100;
     }else if (newValue <= 0) {
       this.progreso = 0;
@@ -42,25 +43,24 @@ export class IncrementadorComponent implements OnInit {
 
   // elemHTML.value = this.progreso;
 
-  this.varProgress.nativeElement.value = this.progreso;
+   this.varProgress.nativeElement.value = this.progreso;
 
-  this.cambioValor.emit(this.progreso);
+   this.cambioValor.emit(this.progreso);
   }
 
   cambiarValor(valor: number) {
-    if(this.progreso >= 100 && valor >= 0) {
+    if (this.progreso >= 100 && valor >= 0) {
       this.progreso = 100;
       return;
     }
-    
+
     if (this.progreso <= 0 && valor < 0) {
       this.progreso = 0;
       return;
     }
-    
+
     this.progreso = this.progreso + valor;
     this.cambioValor.emit(this.progreso);
     this.varProgress.nativeElement.focus();
   }
-
 }
