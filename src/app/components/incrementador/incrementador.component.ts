@@ -29,7 +29,7 @@ export class IncrementadorComponent implements OnInit {
 
   onChanges(newValue: number){
 
-   //let elemHTML: any = document.getElementsByName('progreso')[0];
+    let elemHTML: any = document.getElementsByName('progreso')[0];
 
    console.log(this.varProgress);
 

@@ -22,10 +22,8 @@ import { PipesModule } from '../pipes/pipes.module';
 
 // Temporal
 // import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
-import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
+// import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 
-// Graficas temporal
-import { ChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
@@ -37,8 +35,6 @@ import { RouterModule } from '@angular/router';
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
-        // IncrementadorComponent,
-        GraficoDonaComponent,
         AccountSettingsComponent,
         PromesasComponent,
         RxjsComponent,
@@ -59,7 +55,6 @@ import { RouterModule } from '@angular/router';
         PagesRoutingModule,
         ComponentsModule, // Recien importado con la nueva version AA
         FormsModule,
-        ChartsModule,
         PipesModule
     ]
 })

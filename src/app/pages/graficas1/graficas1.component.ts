@@ -8,9 +8,14 @@ import { ChartType } from 'chart.js';
   styles: [
   ]
 })
-export class Graficas1Component implements OnInit {
+export class Graficas1Component {
 
-  graficos: any = {
+  public labels1: string[] = ['Pan', 'Refresco', 'Tacos'];
+  public data1 = [
+    10, 15, 40
+  ];
+
+/*   graficos: any = {
     'grafico1': {
       'labels': ['Con Frijoles', 'Con Natilla', 'Con tocino'],
       'data':  [[24, 30, 46], [50, 150, 120], [250, 130, 70]],
@@ -35,10 +40,5 @@ export class Graficas1Component implements OnInit {
       'type': 'doughnut',
       'leyenda': '¿Le importa que le den gases?'
     },
-  };
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  }; */
 }
