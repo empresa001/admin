@@ -43,10 +43,11 @@ import { RouterModule } from '@angular/router';
 
     ],
     exports: [
-        PagesComponent, // aumentado para nueva version AA
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
+        PagesComponent, // aumentado para nueva version AA
+        AccountSettingsComponent
     ],
     imports: [
         CommonModule,

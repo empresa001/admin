@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { SettingsService } from '../../services/services.index';
+import { SettingsService } from '../../services/settings/settings.service';
 
 
 @Component({
@@ -11,46 +11,15 @@ import { SettingsService } from '../../services/services.index';
 
 export class AccountSettingsComponent implements OnInit {
 
-  constructor( public _ajustes: SettingsService ) { }
+
+  constructor(private settingsService: SettingsService) { }
 
   ngOnInit(): void {
-
-    this.colocarCheck();
-
+    this.settingsService.checkCurrentTheme();
   }
 
-  cambiarTheme(tema: string, link: any ) {
-
-    this.aplicarCheck(link);
-
-    this._ajustes.aplicarTema( tema );
-
-  }
-
-  aplicarCheck(link: any) {
-
-    let selectores: any = document.getElementsByClassName('selector');
-
-    for( let ref of selectores ) {
-      ref.classList.remove('working');
-    }
-
-    link.classList.add('working');
-  }
-
-  colocarCheck() {
-
-    let selectores: any = document.getElementsByClassName('selector');
-
-    let tema = this._ajustes.ajustes.theme;
-
-    for( let ref of selectores ) {
-     if (ref.getAttribute('data-theme') === tema) {
-       ref.classList.add('working');
-       break;
-     }
-    }
-
+  cambiarTheme(theme: string) {
+    this.settingsService.cambiarTheme( theme );
   }
 
 }

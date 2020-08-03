@@ -6,42 +6,37 @@ import { DOCUMENT } from '@angular/common';
 })
 export class SettingsService {
 
-  ajustes: Ajustes = {
-    themeUrl: 'assets/css/colors/default.css',
-    theme: 'default'
-  };
+  public linkTheme = document.querySelector('#theme');
 
-  constructor( @Inject(DOCUMENT) private _document) {
-    this.cargaAjustes();
+  constructor( ) {
+    const url = localStorage.getItem('theme') || './assets/css/colors/purple-dark.css';
+    this.linkTheme.setAttribute('href', url);
    }
 
-guardarAjustes() {
-  localStorage.setItem('ajustes', JSON.stringify( this.ajustes));
-}
-
-cargaAjustes() {
-  if (localStorage.getItem('ajustes')===''){
-    this.ajustes = JSON.parse(localStorage.getItem('ajustes'));
-    this.aplicarTema(this.ajustes.theme);
-  } else {
-    this.aplicarTema(this.ajustes.theme);
+   cambiarTheme(theme: string) {
+    const url = `./assets/css/colors/${ theme }.css`;
+    this.linkTheme.setAttribute('href', url);
+    localStorage.setItem('theme', url);
+    this.checkCurrentTheme();
   }
-}
 
-aplicarTema(theme: string) {
-  let urlTheme = `assets/css/colors/${theme}.css`;
-  this._document.getElementById('theme').setAttribute('href', urlTheme);
-  this.ajustes.theme = theme;
-  this.ajustes.themeUrl = urlTheme;
+  checkCurrentTheme() {
 
-  this.guardarAjustes();
-}
+    const links = document.querySelectorAll('.selector');
 
-}
+    links.forEach( elem => {
 
-interface Ajustes {
+      elem.classList.remove('working');
+      const btnTheme = elem.getAttribute('data-theme');
+      const btnThemeUrl = `./assets/css/colors/${ btnTheme}.css`;
+      const currenTheme = this.linkTheme.getAttribute('href');
 
-  themeUrl: string;
-  theme: string;
+      if ( btnThemeUrl === currenTheme ){
+        elem.classList.add('working');
+      }
+
+    });
+
+  }
 
 }
