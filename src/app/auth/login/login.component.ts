@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UsuarioService } from '../../services/services.index';
 import { Usuario } from '../../models/usuario.model';
 
-declare function init_plugins();
+// declare function init_plugins();
 declare const gapi: any;
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   constructor( public router: Router, public _usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    init_plugins();
+    // init_plugins();
     this.googleInint();
     this.email = localStorage.getItem('email') || '';
     if (this.email.length > 1 ){

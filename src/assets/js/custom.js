@@ -5,8 +5,7 @@ Email: niravjoshi87@gmail.com
 File: js
 */
 
-function init_plugins() {
-
+const customInitFuntions = () => {
     $(function() {
         "use strict";
         $(function() {
@@ -160,3 +159,5 @@ function init_plugins() {
     });
 
 }
+
+customInitFuntions();

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import {
   SettingsService,
-  SidebarService,
+  // SidebarService,
   SharedService,
   UsuarioService
  } from './services.index';
@@ -22,7 +22,7 @@ import { SubirArchivosService } from './subir-archivo/subir-archivos.service';
   ],
   providers: [
     SettingsService,
-    SidebarService,
+    // SidebarService,
     SharedService,
     UsuarioService,
     LoginGuardGuard,

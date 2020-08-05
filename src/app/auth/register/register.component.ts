@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 const swal: SweetAlert = _swal as any;
 
-declare function init_plugins();
+// declare function init_plugins();
 
 @Component({
   selector: 'app-register',
@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    init_plugins();
+    // init_plugins();
 
     this.forma = new FormGroup({
       nombre: new FormControl(null, Validators.required),
