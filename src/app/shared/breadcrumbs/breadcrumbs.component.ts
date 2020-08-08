@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { Title, Meta, MetaDefinition } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -9,36 +9,31 @@ import { Title, Meta, MetaDefinition } from '@angular/platform-browser';
   styles: [
   ]
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent implements OnDestroy{
 
-  tituloBreadcrumbs: string;
+  public tituloBreadcrumbs: string;
+  public tituloSubs$: Subscription;
 
-  constructor( private router: Router, private title: Title, private meta: Meta) {
-    this.getDataRoute()
-    .subscribe(data => {
-      console.log(data);
-      this.tituloBreadcrumbs = data.titulo;
-      this.title.setTitle(this.tituloBreadcrumbs);
-
-      const metaTag: MetaDefinition = {
-        name: 'description',
-        content: this.tituloBreadcrumbs
-      };
-
-      this.meta.updateTag( metaTag);
-
-    });
+  constructor( private router: Router) {
+    this.getDataRoute();
+    this.tituloSubs$ = this.getDataRoute()
+      .subscribe( ({titulo}) => {
+        this.tituloBreadcrumbs = titulo;
+        document.title = `AdminPro - ${titulo}`;
+      });
+  }
+  ngOnDestroy(): void {
+    this.tituloSubs$.unsubscribe();
   }
 
-  ngOnInit(): void {
-  }
 
   getDataRoute() {
-    return this.router.events.pipe(
+   return this.router.events
+    .pipe(
       filter( evento => evento instanceof ActivationEnd ),
       filter(( evento: ActivationEnd) => evento.snapshot.firstChild === null),
       map( (evento: ActivationEnd) => evento.snapshot.data )
-    );
+      );
   }
 
 }
