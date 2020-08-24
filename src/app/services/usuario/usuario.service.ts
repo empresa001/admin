@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { URL_SERVICIOS } from '../../config/config';
 import { map } from 'rxjs/operators';
 // import swal from 'sweetalert/typings/core';
@@ -8,8 +8,13 @@ import _swal from 'sweetalert';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { Router } from '@angular/router';
 import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
+import { RegisterForm } from '../../interfaces/register-form.interface';
+import { LoginForm } from '../../interfaces/login-form.interface';
+import { environment } from '../../../environments/environment';
 
 const swal: SweetAlert = _swal as any;
+
+const base_url = environment.base_url;
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +24,7 @@ export class UsuarioService {
 usuario: Usuario;
 token: string;
 
-  constructor(public http: HttpClient, public router: Router, public _subirArchivoService: SubirArchivosService ) {
+  constructor(private http: HttpClient/* public http: HttpClient, public router: Router, public _subirArchivoService: SubirArchivosService */ ) {
     console.log('Servicio de usuario listo');
     this.cargarStorage();
   }
@@ -57,17 +62,9 @@ cargarStorage(){
     this.router.navigate(['/login']);
   }
 
-  crearUsuario(usuario: Usuario){
+  crearUsuario(formData: RegisterForm){
 
-    let url = URL_SERVICIOS + '/usuario';
-
-    return this.http.post(url, usuario)
-    .pipe(
-      map( (resp: any) => {
-        swal('Usuario Creado', usuario.email, 'success');
-        return resp.usuario;
-      })
-    );
+      return this.http.post(`${ base_url }/usuarios`, formData);
   }
 
   actualizarUsuario(usuario: Usuario){
@@ -97,28 +94,29 @@ cargarStorage(){
     );
   }
 
-  login(usuario: Usuario, recordar: boolean = false) {
+  login(formData: LoginForm) {
 
-    if ( recordar ){
-      localStorage.setItem('email', usuario.email);
-    }else{
-      localStorage.removeItem('email');
-    }
+/*         if ( recordar ){
+          localStorage.setItem('email', usuario.email);
+        }else{
+          localStorage.removeItem('email');
+        }
+    
+        let url = URL_SERVICIOS + '/login';
+    // tslint:disable-next-line: align
+    return this.http.post(url, usuario)
+    .pipe(
+      map((resp: any) => {
+    
+        this.guardarStorage(resp.id, resp.token, resp.usuario, );
+    /*     localStorage.setItem('id', resp.id);
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('usuario', JSON.stringify(resp.usuario)); 
+        return true;
+      })
+    ); */
 
-    let url = URL_SERVICIOS + '/login';
-// tslint:disable-next-line: align
-return this.http.post(url, usuario)
-.pipe(
-  map((resp: any) => {
-
-    this.guardarStorage(resp.id, resp.token, resp.usuario, );
-/*     localStorage.setItem('id', resp.id);
-    localStorage.setItem('token', resp.token);
-    localStorage.setItem('usuario', JSON.stringify(resp.usuario)); */
-    return true;
-  })
-);
-
+    return this.http.post(`${ base_url }/login`, formData);
   }
 
   cambiarImagen( archivo: File, id: string ){

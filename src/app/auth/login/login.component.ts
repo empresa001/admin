@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { UsuarioService } from '../../services/services.index';
-import { Usuario } from '../../models/usuario.model';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
+/* import { UsuarioService } from '../../services/services.index';
+import { Usuario } from '../../models/usuario.model'; */
+import { UsuarioService } from '../../services/usuario/usuario.service';
+import Swal from 'sweetalert2';
 
 // declare function init_plugins();
-declare const gapi: any;
+// declare const gapi: any;
 
 @Component({
   selector: 'app-login',
@@ -15,23 +17,28 @@ declare const gapi: any;
 })
 export class LoginComponent implements OnInit {
   email: string;
-  recuerdame: boolean = false;
 
   // Google
-  auth2: any;
+  // auth2: any;
 
-  constructor( public router: Router, public _usuarioService: UsuarioService) { }
+  public loginForm = this.fb.group({
+    email: ['test100@gmail.com', [Validators.required, Validators.email]],
+    password: ['123456', Validators.required],
+    remenber: [false]
+  });
+
+  constructor( private fb: FormBuilder, public router: Router, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    // init_plugins();
+/*     // init_plugins();
     this.googleInint();
     this.email = localStorage.getItem('email') || '';
     if (this.email.length > 1 ){
       this.recuerdame = true;
-    }
+    } */
   }
 
-  googleInint(){
+/*   googleInint(){
     gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
         client_id: '131214566624-qvqesnctjbtlapna76i6ovem4ge55mpb.apps.googleusercontent.com',
@@ -39,10 +46,10 @@ export class LoginComponent implements OnInit {
         scope: 'profile email'
       });
       this.attachSignin( document.getElementById('btnGoogle'));
-    }); 
-  }
+    });
+  } */
 
-  attachSignin( element ){
+/*   attachSignin( element ){
     this.auth2.attachClickHandler( element, {}, googleUser => {
       // let profile = googleUser.getBasicProfile();
       let token = googleUser.getAuthResponse().id_token;
@@ -53,11 +60,22 @@ export class LoginComponent implements OnInit {
 
       console.log(token);
     });
-  }
+  } */
 
-  ingresar(forma: NgForm) {
+  login() {
 
-    if( forma.invalid) {
+/*     console.log(this.loginForm.value);
+
+    this.router.navigateByUrl('/'); */
+
+    this.usuarioService.login(this.loginForm.value)
+      .subscribe( resp => {
+        console.log(resp);
+      }, (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      });
+
+    /* if( forma.invalid) {
       return;
     }
 
@@ -67,6 +85,6 @@ export class LoginComponent implements OnInit {
       .subscribe( correcto => { this.router.navigate(['/dashboard']);
 
 
-      });
+      });*/
   }
 }
