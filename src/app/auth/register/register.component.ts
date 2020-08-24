@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import _swal from 'sweetalert';
 import { SweetAlert } from 'sweetalert/typings/core';
 
@@ -18,11 +18,19 @@ const swal: SweetAlert = _swal as any;
 })
 export class RegisterComponent implements OnInit {
 
-  forma: FormGroup;
+  public formSubmitted = false;
+  constructor(private fb: FormBuilder,  /* public _usuarioService: UsuarioService, public router: Router */) { }
 
-  constructor(public _usuarioService: UsuarioService, public router: Router) { }
+  // forma: FormGroup;
+public registerForm = this.fb.group({
+  nombre: ['Gabriel', [Validators.required]],
+  email: ['test100@gmail.com', [Validators.required, Validators.email]],
+  password: ['', Validators.required],
+  password2:['', Validators.required],
+  terminos: ['false', Validators.required],
+});
 
-  sonIguales(campo1: string, campo2: string){
+/*   sonIguales(campo1: string, campo2: string){
 
     return(group: FormGroup) => {
 
@@ -38,12 +46,12 @@ export class RegisterComponent implements OnInit {
         sonIguales: true
       };
     };
-  }
+  } */
 
   ngOnInit(): void {
     // init_plugins();
 
-    this.forma = new FormGroup({
+/*     this.forma = new FormGroup({
       nombre: new FormControl(null, Validators.required),
       correo: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
@@ -58,11 +66,19 @@ export class RegisterComponent implements OnInit {
       password: '123456',
       password2: '123456',
       condiciones: true
-    });
+    }); */
   }
 
-  registrarUsuario(){
+  crearUsuario(){
 
+    this.formSubmitted = true;
+
+    if(this.registerForm.valid){
+      console.log('posteando formulario');
+    } else{
+      console.log('Formulario no es correcto');
+    }
+/* 
     if ( this.forma.invalid ) {
       return;
     }
@@ -83,8 +99,20 @@ export class RegisterComponent implements OnInit {
     .subscribe(resp => {
       this.router.navigate(['/login']);
       console.log(resp);
-    });
+    }); */
 
+  }
+
+  campoNoValido(campo: string): boolean{
+    if(this.registerForm.get(campo).invalid && this.formSubmitted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  aceptaTerminos(){
+    return !this.registerForm.get('terminos').value && this.formSubmitted;
   }
 
 }
