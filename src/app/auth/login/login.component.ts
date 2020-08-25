@@ -7,7 +7,7 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 import Swal from 'sweetalert2';
 
 // declare function init_plugins();
-// declare const gapi: any;
+declare const gapi: any;
 
 @Component({
   selector: 'app-login',
@@ -22,20 +22,21 @@ export class LoginComponent implements OnInit {
   // auth2: any;
 
   public loginForm = this.fb.group({
-    email: ['test100@gmail.com', [Validators.required, Validators.email]],
-    password: ['123456', Validators.required],
+    email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
     remenber: [false]
   });
 
   constructor( private fb: FormBuilder, public router: Router, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-/*     // init_plugins();
-    this.googleInint();
+ // init_plugins();
+ this.renderButton();
+/*     this.googleInint();
     this.email = localStorage.getItem('email') || '';
     if (this.email.length > 1 ){
-      this.recuerdame = true;
-    } */
+      this.recuerdame = true; 
+    }*/
   }
 
 /*   googleInint(){
@@ -64,27 +65,36 @@ export class LoginComponent implements OnInit {
 
   login() {
 
-/*     console.log(this.loginForm.value);
-
-    this.router.navigateByUrl('/'); */
-
     this.usuarioService.login(this.loginForm.value)
       .subscribe( resp => {
-        console.log(resp);
+        if (this.loginForm.get('remenber').value){
+          localStorage.setItem('email', this.loginForm.get('email').value);
+        } else{
+          localStorage.removeItem('email');
+        }
       }, (err) => {
         Swal.fire('Error', err.error.msg, 'error');
       });
+  }
 
-    /* if( forma.invalid) {
-      return;
-    }
+ onSuccess(googleUser) {
+    // console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log(id_token);
+  }
 
-    let usuario = new Usuario(null, forma.value.email, forma.value.password);
-
-    this._usuarioService.login(usuario, forma.value.recuerdame)
-      .subscribe( correcto => { this.router.navigate(['/dashboard']);
-
-
-      });*/
+  onFailure(error) {
+    console.log(error);
+  }
+  renderButton() {
+    gapi.signin2.render('my-signin2', {
+      'scope': 'profile email',
+      'width': 240,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': this.onSuccess,
+      'onfailure': this.onFailure
+    });
   }
 }

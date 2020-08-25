@@ -9,3 +9,10 @@
 .w150 {
     width: 150px;
 }
+
+#google-btn {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

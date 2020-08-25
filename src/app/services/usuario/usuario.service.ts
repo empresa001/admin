@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from 'src/app/models/usuario.model';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { tap } from 'rxjs/operators';
+
+
+import { Usuario } from 'src/app/models/usuario.model';
 import { URL_SERVICIOS } from '../../config/config';
 import { map } from 'rxjs/operators';
-// import swal from 'sweetalert/typings/core';
-import _swal from 'sweetalert';
-import { SweetAlert } from 'sweetalert/typings/core';
 import { Router } from '@angular/router';
 import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
 import { RegisterForm } from '../../interfaces/register-form.interface';
 import { LoginForm } from '../../interfaces/login-form.interface';
-import { environment } from '../../../environments/environment';
-
-const swal: SweetAlert = _swal as any;
 
 const base_url = environment.base_url;
 
@@ -59,12 +57,17 @@ cargarStorage(){
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
 
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
 
   crearUsuario(formData: RegisterForm){
 
-      return this.http.post(`${ base_url }/usuarios`, formData);
+      return this.http.post(`${ base_url }/usuarios`, formData)
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
   actualizarUsuario(usuario: Usuario){
@@ -95,31 +98,15 @@ cargarStorage(){
   }
 
   login(formData: LoginForm) {
-
-/*         if ( recordar ){
-          localStorage.setItem('email', usuario.email);
-        }else{
-          localStorage.removeItem('email');
-        }
-    
-        let url = URL_SERVICIOS + '/login';
-    // tslint:disable-next-line: align
-    return this.http.post(url, usuario)
-    .pipe(
-      map((resp: any) => {
-    
-        this.guardarStorage(resp.id, resp.token, resp.usuario, );
-    /*     localStorage.setItem('id', resp.id);
-        localStorage.setItem('token', resp.token);
-        localStorage.setItem('usuario', JSON.stringify(resp.usuario)); 
-        return true;
-      })
-    ); */
-
-    return this.http.post(`${ base_url }/login`, formData);
+    return this.http.post(`${ base_url }/login`, formData)
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
-  cambiarImagen( archivo: File, id: string ){
+/*   cambiarImagen( archivo: File, id: string ){
 this._subirArchivoService.subirArchivo( archivo, 'usuarios', id)
 .then( (resp: any) => {
 // console.log(resp);
@@ -130,5 +117,5 @@ this.guardarStorage(id, this.token, this.usuario);
 .catch( resp => {
 console.log(resp);
 });
-  }
+  } */
 }
