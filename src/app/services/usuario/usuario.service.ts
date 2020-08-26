@@ -22,7 +22,7 @@ export class UsuarioService {
 usuario: Usuario;
 token: string;
 
-  constructor(private http: HttpClient/* public http: HttpClient, public router: Router, public _subirArchivoService: SubirArchivosService */ ) {
+  constructor(private http: HttpClient) {
     console.log('Servicio de usuario listo');
     this.cargarStorage();
   }
@@ -70,33 +70,6 @@ cargarStorage(){
       );
   }
 
-  actualizarUsuario(usuario: Usuario){
-
-    let url = URL_SERVICIOS + '/usuario/' + usuario._id;
-    url += '?token=' + this.token;
-    return this.http.put( url, usuario)
-    .pipe(
-      map( (resp: any) => {
-
-        let usuarioDB: Usuario = resp.usuario;
-        this.guardarStorage( usuarioDB._id, this.token, usuarioDB);
-        swal('Usuario actualizado', usuario.nombre, 'success');
-        return true;
-        })
-      );
-    }
-
-  loginGoogle(token: string) {
-    let url = URL_SERVICIOS + '/login/google';
-    return this.http.post(url, { token })
-    .pipe(
-    map((resp: any) => {
-      this.guardarStorage(resp.id, resp.token, resp.usuario, );
-      return true;
-      })
-    );
-  }
-
   login(formData: LoginForm) {
     return this.http.post(`${ base_url }/login`, formData)
       .pipe(
@@ -106,16 +79,14 @@ cargarStorage(){
       );
   }
 
-/*   cambiarImagen( archivo: File, id: string ){
-this._subirArchivoService.subirArchivo( archivo, 'usuarios', id)
-.then( (resp: any) => {
-// console.log(resp);
-this.usuario.img = resp.usuario.img;
-swal('Imagen actualizada', this.usuario.nombre, 'success');
-this.guardarStorage(id, this.token, this.usuario);
-})
-.catch( resp => {
-console.log(resp);
-});
-  } */
+  loginGoogle( token ) {
+    return this.http.post(`${ base_url }/login/google`, { token })
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
+  }
+
 }
+
