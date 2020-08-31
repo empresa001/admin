@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm, FormBuilder, Validators } from '@angular/forms';
-/* import { UsuarioService } from '../../services/services.index';
-import { Usuario } from '../../models/usuario.model'; */
+import { FormBuilder, Validators } from '@angular/forms';
+
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import Swal from 'sweetalert2';
 
-// declare function init_plugins();
 declare const gapi: any;
 
 
@@ -21,7 +19,6 @@ export class LoginComponent implements OnInit {
   public formSubmit = false;
   public auth2: any;
   email: string;
-  
   // Google
 
   public loginForm = this.fb.group({
@@ -30,9 +27,9 @@ export class LoginComponent implements OnInit {
     remenber: [false]
   });
 
-  constructor( private fb: FormBuilder, public router: Router, private usuarioService: UsuarioService) { }
+  constructor( private fb: FormBuilder, public router: Router, private usuarioService: UsuarioService, private ngZone: NgZone) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
  // init_plugins();
  this.renderButton();
   }
@@ -46,12 +43,12 @@ export class LoginComponent implements OnInit {
         } else{
           localStorage.removeItem('email');
         }
+        // navegar al dashboard
+        this.router.navigateByUrl('/');
       }, (err) => {
         Swal.fire('Error', err.error.msg, 'error');
       });
   }
-
-  
 
       renderButton() {
         gapi.signin2.render('my-signin2', {
@@ -64,17 +61,13 @@ export class LoginComponent implements OnInit {
         this.startApp();
       }
 
-      startApp() {
-        gapi.load('auth2', () => {
-          // Retrieve the singleton for the GoogleAuth library and set up the client.
-          this.auth2 = gapi.auth2.init({
-            client_id: '131214566624-qvqesnctjbtlapna76i6ovem4ge55mpb.apps.googleusercontent.com',
-            cookiepolicy: 'single_host_origin',
-            // Request scopes in addition to 'profile' and 'email'
-            //scope: 'additional_scope'
-          });
-          this.attachSignin(document.getElementById('my-signin2'));
-        });
+      async startApp() {
+
+        await this.usuarioService.googleInit();
+        this.auth2 = this.usuarioService.auth2;
+
+        this.attachSignin(document.getElementById('my-signin2'));
+
       }
 
       attachSignin(element) {
@@ -83,7 +76,13 @@ export class LoginComponent implements OnInit {
                const id_token = googleUser.getAuthResponse().id_token;
                console.log(id_token);
                this.usuarioService.loginGoogle(id_token)
-                 .subscribe();
+                 .subscribe( resp => {
+                   // navegar al dashboard
+                   this.ngZone.run(() => {
+                    this.router.navigateByUrl('/');
+                  });
+                 });
+
             }, (error) => {
               alert(JSON.stringify(error, undefined, 2));
             });

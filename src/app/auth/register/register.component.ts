@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 
 
 // import { UsuarioService } from '../../services/services.index';
-import { Usuario } from '../../models/usuario.model';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 
@@ -18,7 +17,7 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 export class RegisterComponent implements OnInit {
 
   public formSubmitted = false;
-  constructor(private fb: FormBuilder, private usuarioServices: UsuarioService) { }
+  constructor(private fb: FormBuilder, private usuarioServices: UsuarioService, private router: Router) { }
 
   public registerForm = this.fb.group({
     nombre: ['Gabriel', Validators.required],
@@ -48,8 +47,8 @@ export class RegisterComponent implements OnInit {
     // Realizando la creacion
     this.usuarioServices.crearUsuario(this.registerForm.value)
         .subscribe(resp => {
-          console.log('usuario creado');
-          console.log(resp);
+            // Navegar al Dashboard
+            this.router.navigateByUrl('/');
         }, (err) => {
           // Manejo de errores
           Swal.fire('Error', err.error.msg, 'error');

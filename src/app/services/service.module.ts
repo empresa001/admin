@@ -8,7 +8,6 @@ import {
   UsuarioService
  } from './services.index';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginGuardGuard } from './guards/login-guard.guard';
 import { SubirArchivosService } from './subir-archivo/subir-archivos.service';
 
 
@@ -25,7 +24,6 @@ import { SubirArchivosService } from './subir-archivo/subir-archivos.service';
     // SidebarService,
     SharedService,
     UsuarioService,
-    LoginGuardGuard,
     SubirArchivosService
   ]
 })
