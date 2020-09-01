@@ -11,6 +11,7 @@ import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
 import { RegisterForm } from '../../interfaces/register-form.interface';
 import { LoginForm } from '../../interfaces/login-form.interface';
 import { resolve } from 'dns';
+import { Usuario } from 'src/app/models/usuario.model';
 
 const base_url = environment.base_url;
 declare const gapi: any;
@@ -21,25 +22,34 @@ declare const gapi: any;
 export class UsuarioService {
 
   public auth2: any;
-  token: string;
+  public usuario: any;
+  // token: string;
 
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
-    this.cargarStorage();
-    this.googleInit();
+    // this.cargarStorage();
+     this.googleInit();
+  }
+
+  get token(): string{
+    return localStorage.getItem('token') || '';
+  }
+  get uid(): string{
+    return this.usuario.uid || '';
   }
 
   validarToken(): Observable<boolean>{
-    const token = localStorage.getItem('token') || '';
 
     return this.http.get(`${base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap((resp: any) => {
+      map((resp: any) => {
+        const { email, google, nombre, role, img = '', uid } = resp.usuario;
+        this.usuario = new Usuario(nombre, email, google, img, role, img, uid);
         localStorage.setItem('token', resp.token);
+        return true;
       }),
-      map( resp => true),
       catchError(error => of(false))
     );
   }
@@ -48,7 +58,7 @@ export class UsuarioService {
     return( this.token.length >  5 ) ? true : false;
   }
 
-cargarStorage(){
+/* cargarStorage(){
   if (localStorage.getItem('token')){
     this.token = localStorage.getItem('token');
     // this.usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -56,16 +66,16 @@ cargarStorage(){
     this.token = '';
     // this.usuario = null;
   }
-}
+} */
 
-  guardarStorage(id: string, token: string){
+/*   guardarStorage(id: string, token: string){
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
 
     // this.usuario = usuario;
     this.token = token;
   }
-
+ */
   crearUsuario(formData: RegisterForm){
 
       return this.http.post(`${ base_url }/usuarios`, formData)
@@ -74,6 +84,19 @@ cargarStorage(){
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+  actualizarPerfil( data: {email: string, nombre: string, role: string}){
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+    
+    return this.http.put(`${ base_url }/usuarios/${this.uid}`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
   login(formData: LoginForm) {
@@ -108,7 +131,6 @@ cargarStorage(){
 
       });
     });
-
   }
 
   logout(){

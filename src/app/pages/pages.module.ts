@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { PagesComponent } from './pages.component';
@@ -51,11 +51,12 @@ import { RouterModule } from '@angular/router';
     ],
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         SharedModule,
         RouterModule,
-        PagesRoutingModule,
         ComponentsModule, // Recien importado con la nueva version AA
-        FormsModule,
+        PagesRoutingModule,
         PipesModule
     ]
 })

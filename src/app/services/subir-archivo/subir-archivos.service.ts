@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { URL_SERVICIOS } from '../../config/config';
+import { environment } from '../../../environments/environment';
+
+const base_url = environment.base_url;
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +11,36 @@ export class SubirArchivosService {
 
   constructor() { }
 
-  subirArchivo( archivo: File, tipo: string, id: string) {
 
-    return new Promise((resolve, reject) => {
+
+  /* subirArchivo */async actualizarFoto( archivo: File, tipo: 'usuarios'|'medicos'|'hospitales', id: string) {
+    try{
+
+      const url = `${ base_url }/upload/${ tipo }/${ id }`;
+
+      const formData = new FormData();
+      formData.append('img', archivo);
+
+      const resp = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'x-token': localStorage.getItem('token')
+        },
+        body: formData
+      });
+
+     const data = await resp.json();
+
+     console.log(data);
+
+      return 'nombre de la imagen';
+
+    } catch (error){
+      console.log(error);
+      return false;
+    }
+
+/*     return new Promise((resolve, reject) => {
       let formData = new FormData();
       let xhr = new XMLHttpRequest();
       formData.append( 'imagen', archivo, archivo.name);
@@ -32,7 +62,7 @@ export class SubirArchivosService {
 
     xhr.send(formData);
 
-    });
+    }); */
 
   }
 }
