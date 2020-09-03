@@ -13,56 +13,28 @@ export class SubirArchivosService {
 
 
 
-  /* subirArchivo */async actualizarFoto( archivo: File, tipo: 'usuarios'|'medicos'|'hospitales', id: string) {
+  async actualizarFoto( archivo: File, tipo: 'usuarios'|'medicos'|'hospitales', id: string) {
     try{
 
-      const url = `${ base_url }/upload/${ tipo }/${ id }`;
+          const url = `${ base_url }/upload/${tipo}/${id}`;
+          const formData = new FormData();
+          formData.append('img', archivo);
+          const resp = await fetch(url, {
+            method: 'PUT',
+            headers: {
+              'x-token': localStorage.getItem('token') || ''
+            },
+            body: formData
+          });
 
-      const formData = new FormData();
-      formData.append('img', archivo);
-
-      const resp = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'x-token': localStorage.getItem('token')
-        },
-        body: formData
-      });
-
-     const data = await resp.json();
-
-     console.log(data);
-
-      return 'nombre de la imagen';
-
+          const data = await resp.json();
+          if (data.ok){
+                 return data.nombreArchivo;
+               } else {
+                 return false;
+              }
     } catch (error){
-      console.log(error);
-      return false;
+        return false;
     }
-
-/*     return new Promise((resolve, reject) => {
-      let formData = new FormData();
-      let xhr = new XMLHttpRequest();
-      formData.append( 'imagen', archivo, archivo.name);
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 ){
-          if (xhr.status === 200) {
-            console.log("Imagen subida");
-            resolve( JSON.parse(xhr.response));
-          } else {
-            console.log('Fallo la subida');
-            reject(xhr.response);
-          }
-        }
-      };
-
-    let url = URL_SERVICIOS + '/upload/' + tipo +'/' + id;
-
-    xhr.open('PUT', url, true);
-
-    xhr.send(formData);
-
-    }); */
-
   }
 }

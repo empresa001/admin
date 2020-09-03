@@ -45,8 +45,8 @@ export class UsuarioService {
       }
     }).pipe(
       map((resp: any) => {
-        const { email, google, nombre, role, img = '', uid } = resp.usuario;
-        this.usuario = new Usuario(nombre, email, google, img, role, img, uid);
+        const { nombre, email, role, google, img = '', uid } = resp.usuario;
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token);
         return true;
       }),
@@ -58,24 +58,6 @@ export class UsuarioService {
     return( this.token.length >  5 ) ? true : false;
   }
 
-/* cargarStorage(){
-  if (localStorage.getItem('token')){
-    this.token = localStorage.getItem('token');
-    // this.usuario = JSON.parse(localStorage.getItem('usuario'));
-  } else{
-    this.token = '';
-    // this.usuario = null;
-  }
-} */
-
-/*   guardarStorage(id: string, token: string){
-    localStorage.setItem('id', id);
-    localStorage.setItem('token', token);
-
-    // this.usuario = usuario;
-    this.token = token;
-  }
- */
   crearUsuario(formData: RegisterForm){
 
       return this.http.post(`${ base_url }/usuarios`, formData)
@@ -86,12 +68,11 @@ export class UsuarioService {
       );
   }
 
-  actualizarPerfil( data: {email: string, nombre: string, role: string}){
+  actualizarPerfil( data: {email: string, nombre: string , role: string }){
     data = {
       ...data,
       role: this.usuario.role
     }
-    
     return this.http.put(`${ base_url }/usuarios/${this.uid}`, data, {
       headers: {
         'x-token': this.token
