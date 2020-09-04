@@ -28,6 +28,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { ProfileComponent } from './profile/profile.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { RouterModule } from '@angular/router';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { RouterModule } from '@angular/router';
         RxjsComponent,
         ProfileComponent,
         NopagefoundComponent,
+        UsuariosComponent,
 
     ],
     exports: [
