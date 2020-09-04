@@ -11,7 +11,6 @@ import { SettingsService } from '../../services/settings/settings.service';
 
 export class AccountSettingsComponent implements OnInit {
 
-
   constructor(private settingsService: SettingsService) { }
 
   ngOnInit(): void {

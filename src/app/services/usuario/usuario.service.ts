@@ -10,7 +10,6 @@ import { URL_SERVICIOS } from '../../config/config';
 import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
 import { RegisterForm } from '../../interfaces/register-form.interface';
 import { LoginForm } from '../../interfaces/login-form.interface';
-import { resolve } from 'dns';
 import { Usuario } from 'src/app/models/usuario.model';
 
 const base_url = environment.base_url;
