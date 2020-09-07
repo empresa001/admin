@@ -2,14 +2,13 @@ import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map, tap, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import { Router } from '@angular/router';
 
-// import { Usuario } from 'src/app/models/usuario.model';
-import { URL_SERVICIOS } from '../../config/config';
-import { SubirArchivosService } from '../subir-archivo/subir-archivos.service';
+import { CargarUsuario } from '../../interfaces/cargar-usuarios-interface';
 import { RegisterForm } from '../../interfaces/register-form.interface';
 import { LoginForm } from '../../interfaces/login-form.interface';
+
 import { Usuario } from 'src/app/models/usuario.model';
 
 const base_url = environment.base_url;
@@ -22,10 +21,8 @@ export class UsuarioService {
 
   public auth2: any;
   public usuario: any;
-  // token: string;
 
-  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
-    // this.cargarStorage();
+  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {    
      this.googleInit();
   }
 
@@ -34,6 +31,14 @@ export class UsuarioService {
   }
   get uid(): string{
     return this.usuario.uid || '';
+  }
+
+  get headers(){
+    return {
+      headers: {
+      'x-token': this.token
+    }
+  };
   }
 
   validarToken(): Observable<boolean>{
@@ -53,10 +58,6 @@ export class UsuarioService {
     );
   }
 
-  estaLogueado() {
-    return( this.token.length >  5 ) ? true : false;
-  }
-
   crearUsuario(formData: RegisterForm){
 
       return this.http.post(`${ base_url }/usuarios`, formData)
@@ -68,15 +69,11 @@ export class UsuarioService {
   }
 
   actualizarPerfil( data: {email: string, nombre: string , role: string }){
-    data = {
+     data = {
       ...data,
       role: this.usuario.role
-    }
-    return this.http.put(`${ base_url }/usuarios/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    } 
+    return this.http.put(`${ base_url }/usuarios/${this.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm) {
@@ -122,5 +119,35 @@ export class UsuarioService {
     });
   }
 
+  cargarUsuarios(desde: number= 0){
+     // localhost:3000/api/usuarios?desde=0
+    const url = `${ base_url }/usuarios?desde=${desde}`;
+
+    return this.http.get<CargarUsuario>(url, this.headers)
+      .pipe(
+        map( resp =>{
+          const usuarios = resp.usuarios
+            .map(
+                  user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+                );
+          return {
+            totalRegistros:  resp.totalRegistros,
+            usuarios
+          };
+        }
+      ));
+  }
+
+  elimarUsuarios(usuario: Usuario){
+    // localhost:3000/api/usuarios/5f33ff53a60bff2910722d3d
+    const url = `${ base_url }/usuarios/${usuario.uid}`;
+
+    return this.http.delete(url, this.headers);
+  }
+
+
+  cambiarRolUsuario( usuario: Usuario ){
+       return this.http.put(`${ base_url }/usuarios/${usuario.uid}`, usuario, this.headers);
+     }
 }
 
