@@ -11,8 +11,6 @@ export class SubirArchivosService {
 
   constructor() { }
 
-
-
   async actualizarFoto( archivo: File, tipo: 'usuarios'|'medicos'|'hospitales', id: string) {
     try{
 

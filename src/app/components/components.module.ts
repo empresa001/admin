@@ -7,16 +7,19 @@ import { FormsModule } from '@angular/forms';
 import { IncrementadorComponent } from './incrementador/incrementador.component';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { ChartsModule } from 'ng2-charts';
+import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
 
 
 @NgModule({
   declarations: [
     IncrementadorComponent,
-    GraficoDonaComponent
+    GraficoDonaComponent,
+    ModalImagenComponent
   ],
   exports: [
     IncrementadorComponent,
-    GraficoDonaComponent
+    GraficoDonaComponent,
+    ModalImagenComponent
   ],
   imports: [
     CommonModule,
