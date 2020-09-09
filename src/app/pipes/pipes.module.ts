@@ -4,9 +4,6 @@ import { ImagenPipe } from './imagen.pipe';
 
 
 @NgModule({
-  imports: [
-    
-  ],
   declarations: [
     ImagenPipe
   ],

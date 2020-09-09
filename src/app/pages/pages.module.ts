@@ -29,6 +29,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { RouterModule } from '@angular/router';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,8 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
         ProfileComponent,
         NopagefoundComponent,
         UsuariosComponent,
+        HospitalesComponent,
+        MedicosComponent,
 
     ],
     exports: [

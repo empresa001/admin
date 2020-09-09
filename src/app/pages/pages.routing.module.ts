@@ -15,6 +15,8 @@ import { ProfileComponent } from './profile/profile.component';
 
 // Mantenimiento
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 
 
 const pagesRoutes: Routes = [
@@ -32,7 +34,9 @@ const pagesRoutes: Routes = [
           { path: 'perfil', component: ProfileComponent, data: { titulo: 'Perfil de Usuario'} },
 
           // Mantenimientos
-          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuario de aplicacion'} },
+          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios registrados en la aplicacion'} },
+          { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Lista de Hospitales'} },
+          { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos Registrados'} },
         ]
       },
 ];
