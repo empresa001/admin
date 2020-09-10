@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 
 import { Usuario } from 'src/app/models/usuario.model';
+import { Hospital } from '../../models/hospital.model';
 
 const base_url = environment.base_url;
 
@@ -32,6 +33,10 @@ private transformarUsuarios(resultados: any[]): Usuario[]{
   );
 }
 
+private transformarHospitales(resultados: any[]): Hospital[]{
+  return resultados;
+}
+
   buscarColeccion(tipo: 'usuarios' | 'medicos' | 'hospitales', terminoBusqueda: string){
     const url = `${ base_url }/todo/coleccion/${ tipo }/${terminoBusqueda}`;
 
@@ -42,7 +47,7 @@ private transformarUsuarios(resultados: any[]): Usuario[]{
             case 'usuarios':
                 return this.transformarUsuarios(resp.resultados);
             case 'hospitales':
-              return this.transformarUsuarios(resp.resultados);
+              return this.transformarHospitales(resp.resultados);
             case 'medicos':
               return this.transformarUsuarios(resp.resultados);
             default:

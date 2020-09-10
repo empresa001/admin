@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <input type="text" class="form-control" placeholder="Buscar hospital...">
+                <input type="text" class="form-control" placeholder="Buscar hospital..." #txtTermino (keyup)="buscarColeccion(txtTermino.value)">
             </div>
         </div>
     </div>
@@ -21,30 +21,44 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Hospitales ({{ hospitales.length }})</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title">Hospitales ({{ hospitales.length }})</h4>
+                    </div>
+                    <div class="col">
+                        <div class="text-right">
+                            <button class="btn btn-secondary" (click)="abrirSAModal()">
+                            <i class="fa fa-hospital-o"> Crear Hospital</i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="w200">Foto</th>
                                 <th>Nombre Hospital</th>
-                                <th class="text-nowrap">Acciones</th>
+                                <th class="w100 text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let hospital of hospitales">
-                                <td class="text-center"><img [src]="hospital.img | imagen:'hospitales'" [alt]="hospital.nombre" class="avatar pointer"></td>
+                                <td class="text-center"><img class="w100 pointer" [src]="hospital.img | imagen:'hospitales'" [alt]="hospital.nombre" (click)="abrirModal(hospital)"></td>
                                 <td><input type="text" class="form-control" placeholder="Nombre del hospital" [(ngModel)]="hospital.nombre"> </td>
                                 <td class="text-nowrap text-center">
-                                    <a href="#" data-toggle="tooltip" data-original-title="Guardar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                    <a (click)="guardarCambios(hospital)" data-toggle="tooltip" data-original-title="Guardar">
+                                        <i class="pointer fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <a (click)="elimarHospital(hospital)" data-toggle="tooltip" data-original-title="Borrar">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--                 <button class="btn btn-secondary">Anterior</button> &nbsp;
-                <button class="btn btn-secondary">Siguiente</button> -->
             </div>
         </div>
     </div>
