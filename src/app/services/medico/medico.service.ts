@@ -34,25 +34,35 @@ export class MedicoService {
      );
  }
 
- crearHospital(medico: Medico){
+ cargarMedicoById(id: string){
+  const url = `${ base_url }/medicos/${id}`;
+  return this.http.get(url, this.headers)
+    .pipe(
+      map( (resp: {ok: boolean, medico: Medico}) => resp.medico)
+    );
+ }
+
+ crearMedico(medico: {nombre: string, hospital: string}){
   // localhost:3000/api/hospitales
  const url = `${ base_url }/medicos`;
  return this.http.post(url, medico, this.headers);
 
 }
 
-actualizarHospital(medico: Medico){
+actualizarMedico(medico: Medico){
   // localhost:3000/api/hospitales
  const url = `${ base_url }/medicos/${medico._id}`;
  return this.http.put(url, medico, this.headers);
 
 }
 
-borrarHospital(_id: string){
+borrarMedico(_id: string){
   // localhost:3000/api/hospitales
  const url = `${ base_url }/medicos/${_id}`;
  return this.http.delete(url, this.headers);
 
 }
+
+
 
 }

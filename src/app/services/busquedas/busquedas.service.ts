@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { Usuario } from 'src/app/models/usuario.model';
 import { Hospital } from '../../models/hospital.model';
+import { Medico } from '../../models/medico.model';
 
 const base_url = environment.base_url;
 
@@ -37,6 +38,10 @@ private transformarHospitales(resultados: any[]): Hospital[]{
   return resultados;
 }
 
+private transformarMedicos(resultados: any[]): Medico[]{
+  return resultados;
+}
+
   buscarColeccion(tipo: 'usuarios' | 'medicos' | 'hospitales', terminoBusqueda: string){
     const url = `${ base_url }/todo/coleccion/${ tipo }/${terminoBusqueda}`;
 
@@ -49,7 +54,7 @@ private transformarHospitales(resultados: any[]): Hospital[]{
             case 'hospitales':
               return this.transformarHospitales(resp.resultados);
             case 'medicos':
-              return this.transformarUsuarios(resp.resultados);
+              return this.transformarMedicos(resp.resultados);
             default:
               return[];
           }

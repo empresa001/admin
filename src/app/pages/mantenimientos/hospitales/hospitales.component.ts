@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HospitalService } from '../../../services/hospital/hospital.service';
 import { Hospital } from '../../../models/hospital.model';
 import Swal from 'sweetalert2';
@@ -13,7 +13,7 @@ import { BusquedasService } from '../../../services/busquedas/busquedas.service'
   styles: [
   ]
 })
-export class HospitalesComponent implements OnInit {
+export class HospitalesComponent implements OnInit, OnDestroy {
 
   public hospitales: Hospital[] = [];
   public cargando: boolean = true;
@@ -45,7 +45,7 @@ export class HospitalesComponent implements OnInit {
           .subscribe(resp => {
             this.hospitales = resp;
           });
-    }
+  }
 
   ngOnDestroy(){
     this.imgSubs.unsubscribe();
@@ -74,7 +74,6 @@ export class HospitalesComponent implements OnInit {
 
   elimarHospital(hospital: Hospital){
 
-    console.log(hospital);
     Swal.fire({
       title: 'Eliminacion',
       text: 'Esta seguro de realizar la eliminación?',
