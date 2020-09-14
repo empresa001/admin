@@ -29,7 +29,7 @@
                                 <select name="" formControlName="hospital" class="form-control">
                                     <option value="">Seleccione Hospital</option>
                                     <option *ngFor="let hospital of hospitales"
-                                        [value]="hospital._id">{{ hospital.nombre }} 
+                                        [value]="hospital._id">{{ hospital.nombre }} {{ hospital._id}} 
                                     </option>
                                 </select>
                             </div>

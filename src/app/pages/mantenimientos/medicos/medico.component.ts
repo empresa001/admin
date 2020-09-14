@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { HospitalService } from '../../../services/hospital/hospital.service';
 import { MedicoService } from '../../../services/medico/medico.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-medico',
@@ -41,7 +42,7 @@ public medicoSeleccionado: Medico;
     this.cargarHospitales();
 
     this.medicoForm.get('hospital').valueChanges
-        .subscribe(hospitalId =>{
+        .subscribe(hospitalId => {
           this.hospitalSeleccionado = this.hospitales.find(h => h._id === hospitalId);
         });
 
@@ -49,10 +50,22 @@ public medicoSeleccionado: Medico;
   }
 
   cargarMedico(id: string){
+
+    if (id === 'nuevo'){
+      return;
+    }
+
     this.medicoService.cargarMedicoById(id)
-        .subscribe(medico => {
-          console.log(medico);
+    .pipe(
+      delay(250)
+    )
+      .subscribe(medico => {
+        // console.log(medico, 'medico puka');
+          if (!medico){
+            return this.router.navigateByUrl(`/dashboard/medicos`);
+          }
           const {nombre, hospital: {_id}} = medico;
+          console.log({nombre, hospital: {_id}}, '{nombre, hospital: {_id}}');
           this.medicoSeleccionado = medico;
           this.medicoForm.setValue({nombre, hospital: _id});
         });
@@ -60,16 +73,35 @@ public medicoSeleccionado: Medico;
 
   guardarMedico(){
     const {nombre} = (this.medicoForm.value);
-    this.medicoService.crearMedico(this.medicoForm.value)
-        .subscribe( (resp: any) => {
+
+    if (this.medicoSeleccionado){
+      const data = {
+        ...this.medicoForm.value,
+        _id: this.medicoSeleccionado._id
+      };
+      console.log(data,'data');
+      this.medicoService.actualizarMedico(data)
+        .subscribe(resp => {
+          // console.log(resp,'resp');
           Swal.fire({
             icon: 'success',
-            title: `Registro de ${nombre} creado correctamente...`,
+            title: `Registro  de ${nombre} actualizado correctamente...`,
             showConfirmButton: true,
-            timer: 3000
+            timer: 4000
           });
-          this.router.navigateByUrl(`/dashboard/medico/${resp.medico._id}`);
         });
+      }else{
+          this.medicoService.crearMedico(this.medicoForm.value)
+            .subscribe( (resp: any) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: `Registro de ${nombre} creado correctamente...`,
+                  showConfirmButton: true,
+                  timer: 4000
+                });
+                this.router.navigateByUrl(`/dashboard/medico/${resp.medico._id}`);
+         });
+      }
   }
 
   cargarHospitales(){
