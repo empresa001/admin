@@ -21,8 +21,8 @@ export class MedicoComponent implements OnInit {
 public medicoForm: FormGroup;
 public hospitales: Hospital[] = [];
 
-public hospitalSeleccionado: Hospital;
 public medicoSeleccionado: Medico;
+public hospitalSeleccionado: Hospital;
 
   constructor(private fb: FormBuilder,
               private hospitalService: HospitalService,
@@ -33,7 +33,7 @@ public medicoSeleccionado: Medico;
 
   ngOnInit(): void {
 
-    this.activateRoute.params.subscribe(({id}) => this.cargarMedico(id));
+    this.activateRoute.params.subscribe(({id}) => {this.cargarMedico(id)});
 
     this.medicoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -45,8 +45,6 @@ public medicoSeleccionado: Medico;
         .subscribe(hospitalId => {
           this.hospitalSeleccionado = this.hospitales.find(h => h._id === hospitalId);
         });
-
-
   }
 
   cargarMedico(id: string){
@@ -60,30 +58,28 @@ public medicoSeleccionado: Medico;
       delay(250)
     )
       .subscribe(medico => {
-        // console.log(medico, 'medico puka');
           if (!medico){
             return this.router.navigateByUrl(`/dashboard/medicos`);
           }
           const {nombre, hospital: {_id}} = medico;
-          console.log({nombre, hospital: {_id}}, '{nombre, hospital: {_id}}');
           this.medicoSeleccionado = medico;
           this.medicoForm.setValue({nombre, hospital: _id});
         });
   }
 
   guardarMedico(){
-    const {nombre} = (this.medicoForm.value);
+
+    const {nombre} = this.medicoForm.value;
 
     if (this.medicoSeleccionado){
       const data = {
         ...this.medicoForm.value,
         _id: this.medicoSeleccionado._id
       };
-      console.log(data,'data');
+
       this.medicoService.actualizarMedico(data)
         .subscribe(resp => {
-          // console.log(resp,'resp');
-          Swal.fire({
+            Swal.fire({
             icon: 'success',
             title: `Registro  de ${nombre} actualizado correctamente...`,
             showConfirmButton: true,

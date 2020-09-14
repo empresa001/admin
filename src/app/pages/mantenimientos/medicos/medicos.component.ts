@@ -17,11 +17,11 @@ import { BusquedasService } from '../../../services/busquedas/busquedas.service'
 })
 export class MedicosComponent implements OnInit, OnDestroy {
 
-  public medicos: Medico[] = [];
   public cargando: boolean = true;
+  public medicos: Medico[] = [];
   private imgSubs: Subscription;
 
-  constructor(private medicosService: MedicoService,
+  constructor(private medicoService: MedicoService,
               public modalImagenService: ModalImagenService,
               private busquedasService: BusquedasService) { }
   ngOnDestroy(): void {
@@ -31,9 +31,9 @@ export class MedicosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cargarMedicos();
 
-    this.imgSubs = this.modalImagenService.nuevaImagen
+    this.imgSubs = this.imgSubs = this.modalImagenService.nuevaImagen
     .pipe(
-      delay(180))
+      delay(200))
       .subscribe(
         img => this.cargarMedicos()
       );
@@ -41,11 +41,10 @@ export class MedicosComponent implements OnInit, OnDestroy {
 
   cargarMedicos(){
     this.cargando = true;
-    this.medicosService.cargarMedicos()
-      .subscribe(medicos =>{
+    this.medicoService.cargarMedicos()
+      .subscribe(medicos => {
         this.cargando = false;
         this.medicos = medicos;
-        console.log(medicos);
       });
 
   }
@@ -74,7 +73,7 @@ export class MedicosComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Si, borrar'
     }).then((result) => {
           if (result.isConfirmed) {
-            this.medicosService.borrarMedico(medico._id)
+            this.medicoService.borrarMedico(medico._id)
               .subscribe(resp => {
                 Swal.fire(`Se realizo la eliminacion del registro ${medico.nombre}`, '', 'success');
                 this.cargarMedicos();

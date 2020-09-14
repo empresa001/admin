@@ -25,12 +25,12 @@ export class MedicoService {
   };
 }
 
-  cargarMedicos(/* desde: number= 0 */){
-    // localhost:3000/api/hospitales
+  cargarMedicos(){
+
    const url = `${ base_url }/medicos`;
    return this.http.get(url, this.headers)
      .pipe(
-       map( (resp: {ok: boolean, medicos: Medico}) => resp.medicos)
+       map( (resp: {ok: boolean, medicos: Medico[]}) => resp.medicos)
      );
  }
 
@@ -52,6 +52,7 @@ export class MedicoService {
 actualizarMedico(medico: Medico){
   // localhost:3000/api/hospitales
  const url = `${ base_url }/medicos/${medico._id}`;
+ console.log(medico, "Actualizando medico con estos datos");
  return this.http.put(url, medico, this.headers);
 
 }
