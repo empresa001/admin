@@ -42,6 +42,13 @@ private transformarMedicos(resultados: any[]): Medico[]{
   return resultados;
 }
 
+busquedaGlobal(terGlobalBusq: string){
+
+  const url = `${ base_url }/todo/${terGlobalBusq}`;
+
+  return this.http.get(url, this.headers);
+}
+
   buscarColeccion(tipo: 'usuarios' | 'medicos' | 'hospitales', terminoBusqueda: string){
     const url = `${ base_url }/todo/coleccion/${ tipo }/${terminoBusqueda}`;
 
