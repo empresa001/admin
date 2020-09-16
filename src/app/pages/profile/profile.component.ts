@@ -83,7 +83,7 @@ export class ProfileComponent implements OnInit {
         this.usuario.email = email;
         Swal.fire('Guardado', 'Cambios fueron guardados', 'success');
       }, (err) => {
-        Swal.fire('Error', err.error.msg, 'error');
+        Swal.fire('Error', err.error.mgs, 'error');
       });
   }
 
