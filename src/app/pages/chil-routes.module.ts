@@ -16,6 +16,7 @@ import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { MonedasComponent } from './clasificadores/monedas/monedas.component';
 
 const chilRoutes: Routes = [
   { path: '', component: DashboardComponent, data: { titulo: 'Dashboard' } },
@@ -33,6 +34,14 @@ const chilRoutes: Routes = [
   { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos Registrados'} },
   { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Medicos Registrados'} },
 
+    // Clasificadores
+    { path: 'monedas', component: MonedasComponent, data: { titulo: 'Monedas'} },
+    // Comprobantes
+    { path: 'comprobante-contable', component: HospitalesComponent, data: { titulo: 'Lista de Hospitales'} },
+    /* { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Lista de Hospitales'} },
+    { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos Registrados'} },
+    { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Medicos Registrados'} }, */
+
   // Rutas Mantenimiento
   { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Usuarios registrados en la aplicacion'} },
 ]
@@ -40,6 +49,7 @@ const chilRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(chilRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  declarations: [MonedasComponent]
 })
 export class ChilRoutesModule { }

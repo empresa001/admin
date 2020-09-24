@@ -22,7 +22,7 @@ export class UsuarioService {
   public auth2: any;
   public usuario: any;
 
-  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {    
+  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
      this.googleInit();
   }
 
